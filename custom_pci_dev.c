@@ -68,10 +68,13 @@ static uint64_t cpcidev_mmio_read(void *opaque, hwaddr addr, unsigned size)
 	//opcode for sum
 	if(cpcidev->opcode == 0x1) {
 		cpcidev->result = cpcidev->op1 + cpcidev->op2;
+		cpcidev->error_calculation = 0x0; //correct operation
 	} else if(cpcidev->opcode == 0x2) { //sub
 		cpcidev->result = cpcidev->op1 - cpcidev->op2;
+		cpcidev->error_calculation = 0x0; //correct operation
 	} else if(cpcidev->opcode == 0x3) { //mult
 		cpcidev->result = cpcidev->op1 * cpcidev->op2;
+		cpcidev->error_calculation = 0x0; //correct operation
 	} else {
 		printf("INVALID OPCODE return 0xff;\n");
 		cpcidev->result = 0xff;
@@ -79,7 +82,7 @@ static uint64_t cpcidev_mmio_read(void *opaque, hwaddr addr, unsigned size)
 	}
 
 	val = cpcidev->result;
-	cpcidev->error_calculation = 0x0; //correct operation
+	
 	break;
     }
 
